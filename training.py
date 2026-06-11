@@ -28,7 +28,9 @@ def _paper_rate(args, idx_train, labels):
 
 def build_student_tag(args):
     return (f'{args.dataset}_r{args.reduction_rate}_s{args.seed}'
-            f'_K{args.feat_prop_k}_b{args.sap_beta}')
+            f'_K{args.feat_prop_k}_b{args.sap_beta}'
+            f'_h{args.hidden}_do{args.dropout}_wd{args.weight_decay}'
+            f'_lr{args.lr_model}_{args.activation}_T{args.student_model_loop}')
 
 
 def _forward_inductive(model, inductive_eval, ind_loaders, device):

@@ -26,7 +26,8 @@ def generate_labels_syn(labels_train, feat_train, args, result_dir, device='cuda
 def build_teacher_path(save_dir, args):
     return os.path.join(
         save_dir, 'teacher',
-        f'teacher_{args.dataset}_s{args.seed}_K{args.feat_prop_k}.pt')
+        f'teacher_{args.dataset}_s{args.seed}_K{args.feat_prop_k}'
+        f'_h{args.hidden}_do{args.dropout}_T{args.teacher_model_loop}.pt')
 
 
 def train_teacher(feat_train, labels_train, feat_test, labels_test,
@@ -60,4 +61,6 @@ def build_cache_path(save_dir, args):
     return os.path.join(
         save_dir, 'feat',
         f'feat_{args.dataset}_r{args.reduction_rate}_s{args.seed}'
-        f'_K{args.feat_prop_k}_b{args.sap_beta}.pt')
+        f'_K{args.feat_prop_k}_b{args.sap_beta}_rr{args.sap_residual_reg}'
+        f'_dw{args.diversity_weight}_km{args.sap_kcenter_mass}'
+        f'_fa{args.feat_alpha}_T{args.condensing_loop}_lf{args.lr_feat}.pt')

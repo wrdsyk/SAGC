@@ -53,6 +53,25 @@ def read_accuracy(path):
     return acc
 
 
+def find_result(cell_dir, code_rate, seed):
+    path = os.path.join(cell_dir, f'r{code_rate}_s{seed}.json')
+    if os.path.isfile(path):
+        return path
+    if not os.path.isdir(cell_dir):
+        return None
+    suffix = f'_s{seed}.json'
+    for name in sorted(os.listdir(cell_dir)):
+        if not (name.startswith('r') and name.endswith(suffix)):
+            continue
+        try:
+            rate = float(name[1:-len(suffix)])
+        except ValueError:
+            continue
+        if math.isclose(rate, float(code_rate), rel_tol=1e-9):
+            return os.path.join(cell_dir, name)
+    return None
+
+
 def mean_std(values):
     n = len(values)
     mean = sum(values) / n
@@ -74,10 +93,10 @@ def main():
             cell_dir = os.path.join(RESULT_ROOT, dataset, 'sagc')
             accs = []
             for seed in SEEDS:
-                path = os.path.join(cell_dir, f'r{code_rate}_s{seed}.json')
-                if not os.path.isfile(path):
+                path = find_result(cell_dir, code_rate, seed)
+                if path is None:
                     warn(f'missing seed {seed} for {dataset} '
-                         f'r={code_rate}: {path} not found')
+                         f'r={code_rate}')
                     continue
                 acc = read_accuracy(path)
                 if acc is not None:
