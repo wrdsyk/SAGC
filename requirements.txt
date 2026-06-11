@@ -1,0 +1,8 @@
+torch==2.7.0
+torch_geometric
+torch_sparse
+torch_scatter
+ogb
+scikit-learn
+scipy
+numpy
